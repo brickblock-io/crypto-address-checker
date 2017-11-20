@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js'
 import sha3 from 'crypto-js/sha3'
 import base58Check from 'bs58check'
 
-const isEthereumAddress = (function() {
+export const isEthereumAddress = (function() {
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/sha3.js
   const sha3Util = (value, options) => {
@@ -61,7 +61,7 @@ const isEthereumAddress = (function() {
   return isAddress
 })()
 
-const isLitecoinAddress = (address: string): boolean => {
+export const isLitecoinAddress = (address: string): boolean => {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
   const looksLike = /^[3LM][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{26,33}$/.test(
     address
@@ -77,7 +77,7 @@ const isLitecoinAddress = (address: string): boolean => {
   return true
 }
 
-const isBitcoinAddress = (address: string): boolean => {
+export const isBitcoinAddress = (address: string): boolean => {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
   const looksLike = /^[13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,34}$/.test(
     address
