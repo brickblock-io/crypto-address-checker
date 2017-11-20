@@ -1,0 +1,27 @@
+# dependencies
+node_modules
+package-lock.json
+yarn-error.log
+npm-debug.log
+
+# testing
+coverage
+
+# production
+build
+
+# misc
+.DS_Store
+.env
+*.log
+
+# secrets
+*.crt
+*.key
+*.rsa
+.env
+
+# tmp files
+~*
+.#*
+.editorconfig
