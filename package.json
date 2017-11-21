@@ -7,11 +7,13 @@
   "license": "MIT",
   "scripts": {
     "build:comment": "this tool is faster than using the babel plugin, and is useful when you do not need babel / want to remove flowtypes directly as a step for: browserify / rollup /webpack",
-    "build": "flow-remove-types --pretty index.js --out-dir build/",
+    "build": "babel index.js -d build/",
     "preversion": "yarn build"
   },
   "devDependencies": {
-    "flow-remove-types": "^1.2.3",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
     "prettier": "^1.8.2"
   },
   "dependencies": {

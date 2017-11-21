@@ -1,110 +1,109 @@
-// 
-import CryptoJS from 'crypto-js'
-import sha3 from 'crypto-js/sha3'
-import base58Check from 'bs58check'
+'use strict';
 
-export const isEthereumAddress = (function() {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addressValidator = exports.isBitcoinAddress = exports.isLitecoinAddress = exports.isEthereumAddress = undefined;
+
+var _cryptoJs = require('crypto-js');
+
+var _cryptoJs2 = _interopRequireDefault(_cryptoJs);
+
+var _sha = require('crypto-js/sha3');
+
+var _sha2 = _interopRequireDefault(_sha);
+
+var _bs58check = require('bs58check');
+
+var _bs58check2 = _interopRequireDefault(_bs58check);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const isEthereumAddress = exports.isEthereumAddress = function () {
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/sha3.js
   const sha3Util = (value, options) => {
     if (options && options.encoding === 'hex') {
       if (value.length > 2 && value.substr(0, 2) === '0x') {
-        value = value.substr(2)
+        value = value.substr(2);
       }
-      value = CryptoJS.enc.Hex.parse(value)
+      value = _cryptoJs2.default.enc.Hex.parse(value);
     }
 
-    return sha3(value, {
+    return (0, _sha2.default)(value, {
       outputLength: 256
-    }).toString()
-  }
+    }).toString();
+  };
 
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/utils.js
   const isChecksumAddress = address => {
     // Check each case
-    const cleanAddress = address.replace('0x', '')
-    const addressHash = sha3Util(cleanAddress.toLowerCase())
+    const cleanAddress = address.replace('0x', '');
+    const addressHash = sha3Util(cleanAddress.toLowerCase());
 
     for (let i = 0; i < 40; i++) {
       // the nth letter should be uppercase if the nth digit of casemap is 1
-      if (
-        (parseInt(addressHash[i], 16) > 7 &&
-          cleanAddress[i].toUpperCase() !== cleanAddress[i]) ||
-        (parseInt(addressHash[i], 16) <= 7 &&
-          cleanAddress[i].toLowerCase() !== cleanAddress[i])
-      ) {
-        return false
+      if (parseInt(addressHash[i], 16) > 7 && cleanAddress[i].toUpperCase() !== cleanAddress[i] || parseInt(addressHash[i], 16) <= 7 && cleanAddress[i].toLowerCase() !== cleanAddress[i]) {
+        return false;
       }
     }
-    return true
-  }
+    return true;
+  };
 
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/utils.js
-  const isAddress = (address) => {
+  const isAddress = address => {
     if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
       // check if it has the basic requirements of an address
-      return false
-    } else if (
-      /^(0x)?[0-9a-f]{40}$/.test(address) ||
-      /^(0x)?[0-9A-F]{40}$/.test(address)
-    ) {
+      return false;
+    } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
       // If it's all small caps or all all caps, return true
-      return true
+      return true;
     } else {
       // Otherwise check each case
-      return isChecksumAddress(address)
+      return isChecksumAddress(address);
     }
-  }
+  };
 
-  return isAddress
-})()
-
-export const isLitecoinAddress = (address) => {
+  return isAddress;
+}();
+const isLitecoinAddress = exports.isLitecoinAddress = address => {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
-  const looksLike = /^[3LM][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{26,33}$/.test(
-    address
-  )
-  if (!looksLike) return false
+  const looksLike = /^[3LM][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{26,33}$/.test(address);
+  if (!looksLike) return false;
 
   try {
-    base58Check.decode(address)
+    _bs58check2.default.decode(address);
   } catch (error) {
-    return false
+    return false;
   }
 
-  return true
-}
+  return true;
+};
 
-export const isBitcoinAddress = (address) => {
+const isBitcoinAddress = exports.isBitcoinAddress = address => {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
-  const looksLike = /^[13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,34}$/.test(
-    address
-  )
-  if (!looksLike) return false
+  const looksLike = /^[13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,34}$/.test(address);
+  if (!looksLike) return false;
 
   try {
-    base58Check.decode(address)
+    _bs58check2.default.decode(address);
   } catch (error) {
-    return false
+    return false;
   }
 
-  return true
-}
+  return true;
+};
 
 const typeValidatorMap = {
   Bitcoin: isBitcoinAddress,
   Ethereum: isEthereumAddress,
   Litecoin: isLitecoinAddress
-}
+};
 
+const addressValidator = exports.addressValidator = (type, address) => {
+  return typeValidatorMap[type](address);
+};
 
-export const addressValidator = (
-  type,
-  address
-) => {
-  return typeValidatorMap[type](address)
-}
-
-export default addressValidator
+exports.default = addressValidator;
