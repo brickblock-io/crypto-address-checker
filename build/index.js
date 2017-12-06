@@ -19,10 +19,10 @@ var _bs58check2 = _interopRequireDefault(_bs58check);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const isEthereumAddress = exports.isEthereumAddress = function () {
+var isEthereumAddress = exports.isEthereumAddress = function () {
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/sha3.js
-  const sha3Util = (value, options) => {
+  var sha3Util = function sha3Util(value, options) {
     if (options && options.encoding === 'hex') {
       if (value.length > 2 && value.substr(0, 2) === '0x') {
         value = value.substr(2);
@@ -37,12 +37,12 @@ const isEthereumAddress = exports.isEthereumAddress = function () {
 
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/utils.js
-  const isChecksumAddress = address => {
+  var isChecksumAddress = function isChecksumAddress(address) {
     // Check each case
-    const cleanAddress = address.replace('0x', '');
-    const addressHash = sha3Util(cleanAddress.toLowerCase());
+    var cleanAddress = address.replace('0x', '');
+    var addressHash = sha3Util(cleanAddress.toLowerCase());
 
-    for (let i = 0; i < 40; i++) {
+    for (var i = 0; i < 40; i++) {
       // the nth letter should be uppercase if the nth digit of casemap is 1
       if (parseInt(addressHash[i], 16) > 7 && cleanAddress[i].toUpperCase() !== cleanAddress[i] || parseInt(addressHash[i], 16) <= 7 && cleanAddress[i].toLowerCase() !== cleanAddress[i]) {
         return false;
@@ -53,7 +53,7 @@ const isEthereumAddress = exports.isEthereumAddress = function () {
 
   // from web3.js
   // https://github.com/ethereum/web3.js/blob/64c932cff2bffbc97959117b5abc48b6c1c40832/lib/utils/utils.js
-  const isAddress = address => {
+  var isAddress = function isAddress(address) {
     if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
       // check if it has the basic requirements of an address
       return false;
@@ -68,9 +68,9 @@ const isEthereumAddress = exports.isEthereumAddress = function () {
 
   return isAddress;
 }();
-const isLitecoinAddress = exports.isLitecoinAddress = address => {
+var isLitecoinAddress = exports.isLitecoinAddress = function isLitecoinAddress(address) {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
-  const looksLike = /^[3LM][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{26,33}$/.test(address);
+  var looksLike = /^[3LM][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{26,33}$/.test(address);
   if (!looksLike) return false;
 
   try {
@@ -82,9 +82,9 @@ const isLitecoinAddress = exports.isLitecoinAddress = address => {
   return true;
 };
 
-const isBitcoinAddress = exports.isBitcoinAddress = address => {
+var isBitcoinAddress = exports.isBitcoinAddress = function isBitcoinAddress(address) {
   // alphabet from https://github.com/cryptocoinjs/bs58/blob/master/index.js
-  const looksLike = /^[13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,34}$/.test(address);
+  var looksLike = /^[13][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,34}$/.test(address);
   if (!looksLike) return false;
 
   try {
@@ -96,13 +96,13 @@ const isBitcoinAddress = exports.isBitcoinAddress = address => {
   return true;
 };
 
-const typeValidatorMap = {
+var typeValidatorMap = {
   Bitcoin: isBitcoinAddress,
   Ethereum: isEthereumAddress,
   Litecoin: isLitecoinAddress
 };
 
-const addressValidator = exports.addressValidator = (type, address) => {
+var addressValidator = exports.addressValidator = function addressValidator(type, address) {
   return typeValidatorMap[type](address);
 };
 
