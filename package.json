@@ -1,6 +1,6 @@
 {
   "name": "crypto-address-checker",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "main": "build/index.js",
   "repository": "git@github.com:brickblock-io/crypto-address-checker.git",
   "author": "mattgstevens <mattgstevens@gmail.com>",
